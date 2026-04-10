@@ -1,0 +1,212 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+% !Mode:: "TeX:UTF-8"
+
+\documentclass{resume}
+\usepackage{zh_CN-Adobefonts_external} % simplified Chinese Support using external fonts (./fonts/zh_CN-Adobe/)
+\usepackage{linespacing_fix} % disable extra space before next section
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+
+\begin{document}
+\pagenumbering{gobble} % suppress displaying page number
+
+
+\name{张晓良}
+\centerline{求职意向: 后端 / AI应用开发工程师 | 软件研发}
+\vspace{1ex}
+\contactInfo{
+    {\href{mailto:zxl2024@qq.com}{zxl2024@qq.com}}}
+    {\href{tel:+8615175951037}{(+86) 151-7595-1037}}
+    {\url{https://github.com/HBUzxl} 
+}
+
+% \vspace{-1ex}
+ 
+\section{\faGraduationCap\  教育背景}
+\datedsubsection{\textbf{河北大学}~~ \ 硕士, 网络与信息安全, Top: 5\%}{2023.09 -- 2026.06}
+\datedsubsection{\textbf{河北大学}~~ \ 学士, 计算机科学与技术, GPA: 4.1/5.0} {2019.09 -- 2023.06}
+
+\vspace{1ex}
+
+
+\section{\faUsers\ 实习经历}
+
+\datedsubsection{\textbf{北京长亭科技有限公司~/~AI架构与探索组~/~实习AI应用开发工程师}}{2025.09 -- 2026.04}
+% \vspace{-0.5ex}
+\begin{onehalfspacing}
+项目一：\href{https://monkeycode-ai.com/}{MonkeyCode} —— 企业级 AI 研发基础设施
+\begin{itemize}
+  \item 项目简介：该平台是集在线编程、代码生成、自动补全、代码分析与安全审计于一体的 AI 驱动研发平台，支持在线编程环境管理与任务执行，覆盖从需求设计到代码 Review 的全研发流程。负责分布式 Agent 的通信架构与编排，支撑大规模并发任务的高效运行。
+  \item 核心通信架构设计：基于 gRPC 实现 Agent 与 Orchestrator 的双向流通信，设计了带指数退避算法的重连机制、心跳保活及状态上报，确保 Agent 在网络波动下能够实时同步任务队列与 AgentInfo
+  \item 长连接回话与重放机制：实现 Agent 的终端会话（TTY）与文件管理系统 ，设计 ReconnectIO 会话重放机制，通过环形缓冲队列解决了web终端重连后的白屏断连问题
+  \item 系统稳定性与性能调优：重构 Docker 构建上下文生成逻辑，利用 io.Pipe 实现流式 tar 打包，成功将环境创建时的内存峰值降低，解决了大规模并发下的 OOM 问题。
+  \item 跨平台插件适配：主导 MonkeyCode 插件在 JetBrains 平台的适配，采用 RunVSAgent 方案复用 VSCode 插件代码，通过 JSON-RPC 模式抽离代码补全核心逻辑，实现跨平台体验高度一致。
+  \item 外部 Agent 能力集成：基于 ACP 协议 将 Claude Code 等业内主流 Agent 接入平台，使用 Bun 封装 standalone 可执行文件，实现多系统、多架构的 Agent 运行环境保障。
+\end{itemize}
+  
+
+项目二：\href{https://scan.monkeycode-ai.com/}{MonkeyScan} -- AI 驱动的代码安全扫描平台
+\begin{itemize}
+  \item 项目简介：企业级静态应用安全测试(SAST)平台，集成 CodeQL、Corax 等主流安全扫描引擎，为用户提供代码安全扫描、漏洞管理、合规审计等功能。负责系统的权限治理、三方授权集成、实名认证模块的开发。
+  \item OAuth2/OIDC 认证：独立实现百智云单点登录集成，设计 OAuth State 防CSRF 攻击，通过Access Token / Refresh Token 及过期时间持久化，实现 Token 自动刷新与实名认证状态实时同步。
+  \item 开发 GitHub App 授权模块：封装 ghinstallation 实现私有仓库的授权链路，设计 State 绑定用户身份的授权回调流程，支持私有仓库列表/分支查询，实现 Installation 绑定、JWT 签名校验与 Installation Access Token 自动生成，区分公开仓库与私有仓库的授权模式。
+  \item 构建用户认证中间件链：实现 RequireCertification（实名认证检查）、RequireActivation（邀请码激活检查）、用户协议版本校验等多层拦截器，通过 Gin Context传递用户状态，实现了对敏感操作的细粒度权限控制与合规拦截。
+  % \item 
+  % \item 
+  % \item 
+  % \item 
+  % \item 
+\end{itemize}
+
+  % 支持 GitHub/GitLab 仓库接入及 ZIP包上传，实现代码安全的全流程自动化管理。
+
+
+  % -                                     
+  % - 设计用户认证中间件链，实现实名认证检查、邀请码激活检查、用户协议版本校验
+  % 2. 用户权限管理体系              
+  % - 设计并实现用户角色权限系统，区分管理员/普通用户角色
+  % - 开发用户管理后台 API（用户列表、角色更新、统计数据）
+  % - 实现邀请码激活机制，支持用户注册流程管控
+  % 3. 合规与风控功能
+  % - 开发用户协议模块，支持协议版本管理与用户签署记录
+  % - 集成百智云实名认证状态，实现实名用户权限控制（未实名用户限制敏感操作）
+  % - 设计 Token 安全机制，支持 API Token 轮换与失效跳转
+  % 4. 前端功能开发
+  % - 开发登录页面、用户管理页面、实名认证提示弹窗等核心页面
+  % - 实现任务列表提交人筛选器（管理员可见）
+  % - 优化侧边栏布局、修复多项 UI 显示问题
+
+  %   \item 基于 Go + Gin 构建后端服务，采用 Ent ORM 操作 PostgreSQL，使用 Wire 依赖注入、Viper 配置管理，通过 Redis实现会话存储与任务队列，整体服务通过 Docker Compose 编排部署。
+
+  %   \item 设计邀请码激活与积分奖励机制，实现用户注册流程管控、邀请关系绑定、注册积分发放，通过事务保证邀请码消耗与积分变更的原子性，支持新用户首次登录引导与合规协议签署。
+  %   \item 开发前端登录页面、用户管理页面、实名认证提示弹窗等核心组件，使用 React 19 + TypeScript + Vite 构建，实现任务列表管理员筛选器、侧边栏布局优化等功能。
+  % \end{itemize}
+
+
+
+
+
+
+
+
+
+  
+\end{itemize}
+\end{onehalfspacing}
+
+\datedsubsection{\textbf{浙江远算科技有限公司~/~后端开发工程师}}{2025.06 -- 2025.08}
+% \vspace{-0.5ex}
+\begin{onehalfspacing}
+\begin{itemize}
+  \item 项目简介：3D模型智能配色生成工具，基于原有平台，开发了一套3D模型配色生成工具。用户可上传3D模型及相关参数，系统自动生成多样化配色方案，并支持任务管理与结果展示。
+  \item 负责后端核心逻辑开发，包括任务创建、参数处理、图片解码与存储、异步任务调度等。
+  \item 集成AI配色算法，自动生成符合场景和模板要求的配色方案。
+  \item 实现任务状态管理与结果回调，优化用户体验。与前端及其他服务模块协作，保障系统稳定运行。 
+\end{itemize}
+\end{onehalfspacing}
+
+\datedsubsection{\textbf{河北明智康华生物科技有限公司~/~研发工程师}}{2025.02 -- 2025.04}
+% \vspace{-0.5ex}
+\begin{onehalfspacing}
+\begin{itemize}
+  \item  设计并实现了一个基于前后端分离架构的远程会诊系统，提供用户认证、专家管理、病例登记、远程会诊、任务分配等功能，系统分为登录系统、管理系统、专家系统和分配系统四个模块
+  \item 基于Go语言和Gin框架开发RESTful API接口，实现了用户鉴权、专家资源分配、病例管理等核心功能；前端使用Vue 3构建响应式用户界面
+  \item 设计了基于JWT的认证机制，实现多角色(管理员、专家、医生)的权限控制和安全访问
+  \item 使用CORS中间件解决跨域问题，保障前后端数据交互的安全性和稳定性
+  % \item 开发了文件上传与管理模块，支持病例图像、诊断报告等医疗文档的存储和访问
+  % \item 集成Swagger自动生成API文档，提升开发效率和团队协作
+\end{itemize}
+\end{onehalfspacing}
+
+
+
+
+
+\vspace{-1ex}
+
+
+\section{\faSitemap\ 项目经历}
+
+
+\datedsubsection{\textbf{抖音电商(字节青训营)} }{2024.12 -- 2025.03}
+\begin{onehalfspacing}
+\begin{itemize}
+  \item 设计并实现了一个基于微服务架构的完整电商平台，提供用户注册登录、商品浏览、购物车管理、订单结算和支付等功能,将系统拆分为用户、商品、购物车、结算、订单、支付等独立服务
+  \item 设计了订单状态流转机制，通过RocketMQ实现订单超时自动取消、支付成功自动更新等功能,实现了购物车与订单的数据同步机制，实现订单、支付和库存等关键业务的数据一致性
+  \item 设计并实现了基于Redis的库存预扣机制，解决高并发下的库存超卖问题
+  \item 实现了基于EdDSA非对称加密的JWT认证机制，提高系统安全性
+  \item 使用Snowflake算法实现分布式UUID生成，优化数据库查询性能
+\end{itemize}
+\end{onehalfspacing}
+% \vspace{-1.5ex}
+
+% \datedsubsection{\textbf{URL短链接生成器}} {2025.03 -- 2025.04}
+% \begin{onehalfspacing}
+    
+% \begin{itemize}
+%     \item 设计并实现了一个高性能的URL短链接服务，支持自定义短码生成、URL过期时间设置及过期链接自动清理功能，采用Go语言和Echo框架开发。
+%     \item 集成Redis缓存层优化URL检索性能，显著减少数据库查询次数，提升系统响应速度
+%     \item 实现了短码碰撞检测和自动重试机制，确保生成的短链接唯一可靠
+
+% \end{itemize}
+% \end{onehalfspacing}
+
+% \vspace{-1ex}
+
+
+
+
+
+
+
+
+
+\section{\faCogs\ 专业技能}
+\begin{onehalfspacing}
+\begin{itemize}
+
+    \item 熟练掌握Go语言，理解slice、map等底层原理,了解GMP调度模型调度模型，垃圾回收等特性
+    % \item 熟悉GMP调度模型、GC垃圾回收机制、内存分配与逃逸机制
+    \item 熟悉Goroutine、Channel、Context，并能高效运行进行并发编程
+    % \item 熟练使用Gin、Gorm、gRPC等常用框架，了解其内部实现原理
+    \item 熟悉TCP/IP、UDP、HTTP/HTTPS等网络协议、理解TCP三次握手、四次挥手及IO复用机制
+    \item 熟链表、栈、队列、树等常用数据结构，了解二分、动态规划、DFS、BFS、滑动窗口等常见算法
+    \item 熟悉MySQL等关系型数据库，掌握存储引擎、索引结构、MVCC、锁机制、日志管理、查询优化及性能调优
+    \item 熟悉Redis的数据结构、线程模型，了解持久化机制、缓存淘汰机制，了解缓存雪崩、穿透等问题
+    \item 熟练使用Git进行代码管理，掌握GitHub/GitLab远程协作开发
+    \item 熟悉Linux环境下编程，了解常用命令
+
+\end{itemize}
+\end{onehalfspacing}
+% \vspace{-1ex}
+
+
+
+\section{\faBook\ 学术成果}
+\begin{onehalfspacing}
+\begin{itemize}
+
+\item \textbf{X. Zhang}, M. Wang, M. Wang, L. Wang, and H. Zhang, ``Enhanced RIS-assisted vehicular network with TDMA and Bayesian Compressive Sensing-based channel estimation,'' \emph{Computer Networks}, p. 111525, 2025. \textbf{(CCF-B)}~({\href{https://www.sciencedirect.com/science/article/abs/pii/S138912862500492X}{Link}})
+\item \textbf{X. Zhang}, X. Zhai, M. Wang, and H. Zhang, ``Overlapping Community Detection Algorithm Based on Enhanced Label Propagation with Graph Neural Network Optimization,'' in \emph{Proceedings of the 21st International Conference on Intelligent Computing (ICIC 2025)}, Ningbo, China, Jul. 2025, pp. 2346--2357. \textbf{(CCF-C)}~({\href{https://scholar.google.com.sg/scholar?q=%E2%80%9COverlapping+Community+Detection+Algorithm+Based+on+Enhanced+Label+Propagation+with+Graph+Neural+Network+Optimization,&hl=zh-CN&as_sdt=0&as_vis=1&oi=scholart}{Link}})
+\end{itemize}
+
+
+\end{onehalfspacing}
+
+
+
+\section{\faTrophy\ 奖项荣誉}
+\begin{onehalfspacing}
+\datedline{\textit{一等奖}~河北大学优秀学生奖学金}{2025.06}
+\datedline{\textit{二等奖}~第六届高校研究生网络与信息安全技术大赛}{2023.09}
+\datedline{\textit{一等奖}~全国大学生数学建模竞赛河北赛区}{2021.09}
+\datedline{\textit{二等奖}~中国高校计算机大赛}{2022.04}
+\datedline{\textit{}~CET6~/~CET4}{}
+% \datedline{\textit{二等奖}~河北大学优秀学生奖学金}{2021.06}
+
+\end{onehalfspacing}
+
+\pagebreak
+
+\end{document}
