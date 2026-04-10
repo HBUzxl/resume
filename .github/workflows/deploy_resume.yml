@@ -1,0 +1,47 @@
+name: Build and Deploy Resume
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.tex'
+      - '**.cls'
+      - '**.sty'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. 编译 PDF (使用支持中文的引擎)
+      - name: Compile LaTeX to PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume_cn.tex
+          compiler: xelatex
+          # 这样可以确保它能找到你目录下的 fonts/ 文件夹
+          args: "-interaction=nonstopmode -halt-on-error -file-line-error"
+
+      # 2. 将 LaTeX 转换为 Markdown (使用 Pandoc)
+      - name: Convert LaTeX to README
+        run: |
+          sudo apt-get install -y pandoc
+          # 转换并将结果注入 README 模板
+          # 注意：LaTeX 中的复杂宏可能无法完美转换，建议保持 tex 结构简单
+          pandoc resume_cn.tex -f latex -t gfm -o resume_body.md
+          
+          # 构建最终的 README
+          echo "# 个人简历 (Resume)" > README.md
+          echo "[点击下载 PDF 版本](./resume_cn.pdf)" >> README.md
+          echo "---" >> README.md
+          cat resume_body.md >> README.md
+          rm resume_body.md
+
+      # 3. 自动提交并推送
+      - name: Commit and Push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: update resume PDF and README [skip ci]"
+          file_pattern: 'resume_cn.pdf README.md'
