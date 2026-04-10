@@ -16,33 +16,44 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. 编译 PDF (使用支持中文的引擎)
+      # 1. 编译 PDF
       - name: Compile LaTeX to PDF
         uses: xu-cheng/latex-action@v3
         with:
           root_file: resume_cn.tex
           compiler: xelatex
-          # 这样可以确保它能找到你目录下的 fonts/ 文件夹
           args: "-interaction=nonstopmode -halt-on-error -file-line-error"
 
-      # 2. 将 LaTeX 转换为 Markdown (使用 Pandoc)
-      - name: Convert LaTeX to README
-        run: |
-          sudo apt-get install -y pandoc
-          # 转换并将结果注入 README 模板
-          # 注意：LaTeX 中的复杂宏可能无法完美转换，建议保持 tex 结构简单
-          pandoc resume_cn.tex -f latex -t gfm -o resume_body.md
-          
-          # 构建最终的 README
-          echo "# 个人简历 (Resume)" > README.md
-          echo "[点击下载 PDF 版本](./resume_cn.pdf)" >> README.md
-          echo "---" >> README.md
-          cat resume_body.md >> README.md
-          rm resume_body.md
+      # 1.5 重命名 PDF 文件
+      - name: Rename PDF
+        run: mv resume_cn.pdf ZhangXiaoliang_CV.pdf
 
-      # 3. 自动提交并推送
+      # 2. 将 PDF 转换为高清晰度图片
+      - name: Convert PDF to PNG
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          # 修改 ImageMagick 权限策略以允许处理 PDF
+          sudo sed -i 's/policy domain="coder" rights="none" pattern="PDF"/policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+          
+          # 转换为 300 DPI 的高清图片，分别导出两页
+          convert -density 300 ZhangXiaoliang_CV.pdf[0] -quality 100 resume_preview_0.png
+          convert -density 300 ZhangXiaoliang_CV.pdf[1] -quality 100 resume_preview_1.png
+
+      # 3. 自动更新 README 内容
+      - name: Update README
+        run: |
+          echo "# 个人简历 (Resume)" > README.md
+          echo "" >> README.md
+          echo "> 💡 提示：下方为简历预览图，最新完整版请点击：[📄 下载 PDF 版本](./ZhangXiaoliang_CV.pdf)" >> README.md
+          echo "" >> README.md
+          echo "[![Resume Preview Page 1](./resume_preview_0.png)](./ZhangXiaoliang_CV.pdf)" >> README.md
+          echo "" >> README.md
+          echo "[![Resume Preview Page 2](./resume_preview_1.png)](./ZhangXiaoliang_CV.pdf)" >> README.md
+
+      # 4. 自动提交并推送
       - name: Commit and Push
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "docs: update resume PDF and README [skip ci]"
-          file_pattern: 'resume_cn.pdf README.md'
+          commit_message: "docs: update resume PDF and preview image [skip ci]"
+          file_pattern: 'ZhangXiaoliang_CV.pdf resume_preview_0.png resume_preview_1.png README.md'
